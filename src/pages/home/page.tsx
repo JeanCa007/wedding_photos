@@ -31,15 +31,15 @@ export default function Home() {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-foreground-950/70 via-foreground-950/85 to-foreground-950" />
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-xl flex-col px-6 pb-12 pt-14">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-xl flex-col px-6 pb-12 pt-14 lg:max-w-4xl lg:pt-20">
         <header className="animate-fade-up text-center">
           <p className="font-label text-[0.7rem] uppercase tracking-[0.35em] text-accent-400">
             Fullmetal Alchemist Brotherhood
           </p>
-          <h1 className="font-heading mt-4 text-4xl font-bold leading-tight text-background-50 sm:text-5xl">
+          <h1 className="font-heading mt-4 text-4xl font-bold leading-tight text-background-50 lg:text-6xl">
             Álbum de Boda
           </h1>
-          <p className="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-background-200">
+          <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-background-200 lg:text-base">
             Una hermandad de recuerdos. Captura cada instante y guárdalo para siempre.
           </p>
         </header>
@@ -53,15 +53,15 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-5">
+        <div className="mt-10 grid gap-5 lg:grid-cols-2">
           {options.map((option, index) => (
             <Link
               key={option.to}
               to={option.to}
-              className="animate-fade-up group relative flex items-center gap-4 overflow-hidden rounded-3xl border border-background-800/60 bg-background-50/[0.06] p-4 backdrop-blur-md transition-all duration-300 hover:border-accent-500/50 hover:bg-background-50/[0.1]"
+              className="animate-fade-up group relative flex items-center gap-4 overflow-hidden rounded-3xl border border-background-800/60 bg-background-50/[0.06] p-4 backdrop-blur-md transition-all duration-300 hover:border-accent-500/50 hover:bg-background-50/[0.1] lg:flex-col lg:items-start lg:gap-5 lg:p-6"
               style={{ animationDelay: `${index * 90}ms` }}
             >
-              <div className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-background-200/20">
+              <div className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-background-200/20 lg:h-32 lg:w-full">
                 <img
                   src={option.image}
                   alt={option.title}
@@ -83,11 +83,11 @@ export default function Home() {
                     {option.title}
                   </h2>
                 </div>
-                <p className="mt-1.5 text-xs leading-relaxed text-background-200">
+                <p className="mt-1.5 text-xs leading-relaxed text-background-200 lg:text-sm">
                   {option.description}
                 </p>
               </div>
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-500 text-foreground-950 transition-transform duration-300 group-hover:translate-x-1">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-500 text-foreground-950 transition-transform duration-300 group-hover:translate-x-1 lg:absolute lg:right-6 lg:top-6">
                 <i className="ri-arrow-right-line text-lg" />
               </span>
             </Link>

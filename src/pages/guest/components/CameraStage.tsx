@@ -1,21 +1,31 @@
+import { useState } from "react";
 import { useCamera } from "@/hooks/useCamera";
 
 type CameraStageProps = {
+  pendingCount: number;
   onCapture: (file: File) => void;
   onPickFromGallery: () => void;
 };
 
-export default function CameraStage({ onCapture, onPickFromGallery }: CameraStageProps) {
+export default function CameraStage({
+  pendingCount,
+  onCapture,
+  onPickFromGallery,
+}: CameraStageProps) {
   const { videoRef, active, error, start, stop, capture, switchCamera } = useCamera();
+  const [flash, setFlash] = useState(false);
 
   const handleCapture = async () => {
     const file = await capture();
-    if (file) onCapture(file);
+    if (!file) return;
+    setFlash(true);
+    window.setTimeout(() => setFlash(false), 220);
+    onCapture(file);
   };
 
   return (
-    <section className="animate-fade-up">
-      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[2rem] border border-background-200 bg-foreground-950 shadow-xl shadow-foreground-950/20">
+    <section className="animate-fade-up lg:sticky lg:top-[92px]">
+      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[2rem] border border-background-200 bg-foreground-950 shadow-xl shadow-foreground-950/20 lg:aspect-[4/5]">
         <video
           ref={videoRef}
           playsInline
@@ -25,13 +35,23 @@ export default function CameraStage({ onCapture, onPickFromGallery }: CameraStag
           }`}
         />
 
+        {flash && <div className="pointer-events-none absolute inset-0 bg-background-50/70" />}
+
         {active && (
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute left-3 top-3 h-8 w-8 rounded-tl-2xl border-l-2 border-t-2 border-accent-400/80" />
-            <div className="absolute right-3 top-3 h-8 w-8 rounded-tr-2xl border-r-2 border-t-2 border-accent-400/80" />
-            <div className="absolute bottom-3 left-3 h-8 w-8 rounded-bl-2xl border-b-2 border-l-2 border-accent-400/80" />
-            <div className="absolute bottom-3 right-3 h-8 w-8 rounded-br-2xl border-b-2 border-r-2 border-accent-400/80" />
-          </div>
+          <>
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute left-3 top-3 h-8 w-8 rounded-tl-2xl border-l-2 border-t-2 border-accent-400/80" />
+              <div className="absolute right-3 top-3 h-8 w-8 rounded-tr-2xl border-r-2 border-t-2 border-accent-400/80" />
+              <div className="absolute bottom-3 left-3 h-8 w-8 rounded-bl-2xl border-b-2 border-l-2 border-accent-400/80" />
+              <div className="absolute bottom-3 right-3 h-8 w-8 rounded-br-2xl border-b-2 border-r-2 border-accent-400/80" />
+            </div>
+
+            <div className="absolute left-1/2 top-4 -translate-x-1/2 rounded-full bg-foreground-950/70 px-3.5 py-1.5 text-[0.7rem] font-medium text-background-100 backdrop-blur-sm">
+              {pendingCount > 0
+                ? `${pendingCount} foto${pendingCount === 1 ? "" : "s"} lista${pendingCount === 1 ? "" : "s"}`
+                : "Toma todas las que quieras"}
+            </div>
+          </>
         )}
 
         {!active && (
@@ -40,7 +60,8 @@ export default function CameraStage({ onCapture, onPickFromGallery }: CameraStag
               <i className="ri-camera-3-line text-4xl text-accent-400" />
             </div>
             <p className="text-sm leading-relaxed text-background-200">
-              Activa la cámara para capturar el momento alquímico.
+              Activa la cámara y captura cada momento. Puedes tomar varias fotos antes de
+              subirlas.
             </p>
             <button
               type="button"
@@ -55,7 +76,7 @@ export default function CameraStage({ onCapture, onPickFromGallery }: CameraStag
               onClick={onPickFromGallery}
               className="text-xs font-medium text-accent-300 underline-offset-4 hover:underline"
             >
-              o sube una foto desde tu galería
+              o elige fotos desde tu galería
             </button>
           </div>
         )}

@@ -14,17 +14,21 @@ con todas las fotos subidas, sin límite de cantidad.
 (carmesí alquímico, dorado, aire de hermandad).
 
 ## 2. Page Structure
-- `/` — Landing: elegir entre "Soy invitado" (subir fotos) o "Soy administrador".
-- `/guest` — Vista invitado: activar cámara, tomar fotos y subirlas (también desde galería).
-- `/admin` — Vista administrador: login y álbum completo con todas las fotos.
+- `/` — Landing: elegir entre "Soy invitado" (subir fotos) o "Soy administrador". Con diseño responsive (móvil y escritorio).
+- `/guest` — Vista invitado: registrar nombre, activar cámara, tomar VARIAS fotos, revisarlas,
+  elegir cuáles subir y cuáles eliminar antes de enviarlas al álbum (también desde galería).
+- `/admin` — Vista administrador: login y álbum completo con todas las fotos, mostrando quién subió cada una.
 
 ## 3. Core Features
-- [x] Vista invitado: activar cámara en el navegador (getUserMedia) y capturar fotos.
-- [x] Vista invitado: subir fotos a la nube (con alternativa de subir desde el carrete/galería).
-- [x] Vista invitado: nombre opcional y descripción breve por foto.
+- [x] Vista invitado: registrar su nombre una vez para saber quién subió cada foto.
+- [x] Vista invitado: activar cámara en el navegador (getUserMedia) y capturar varias fotos seguidas.
+- [x] Vista invitado: revisar las fotos capturadas, eliminar las que no quiera y elegir cuáles subir.
+- [x] Vista invitado: subir fotos a la nube (con alternativa de elegir varias desde la galería).
+- [x] Vista invitado: comentario breve compartido para las fotos que sube.
 - [x] Vista administrador: inicio de sesión (usuario `admin` / contraseña `123456`).
-- [x] Vista administrador: ver el álbum completo de todas las fotos subidas.
+- [x] Vista administrador: ver el álbum completo y QUIÉN subió cada foto.
 - [x] Vista administrador: ver foto ampliada (lightbox) y eliminar fotos.
+- [x] Diseño responsive para móvil y escritorio.
 - [ ] Álbumes múltiples (crear y separar álbumes).
 - [ ] Descarga de fotos / exportar álbum.
 

@@ -16,7 +16,7 @@ export async function getDefaultAlbumId(): Promise<string | null> {
   return data?.id ?? null;
 }
 
-export async function uploadPhoto(input: UploadPhotoInput): Promise<Photo> {
+export async function uploadPhoto(input: UploadPhotoInput): Promise<void> {
   const { file, guestName, caption, albumId } = input;
   const folder = albumId ?? "general";
   const path = `${folder}/${Date.now()}-${randomId()}.jpg`;
@@ -29,20 +29,18 @@ export async function uploadPhoto(input: UploadPhotoInput): Promise<Photo> {
   const { data: urlData } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(path);
   const imageUrl = urlData.publicUrl;
 
-  const { data, error } = await supabase
-    .from("photos")
-    .insert({
-      album_id: albumId ?? null,
-      guest_name: guestName?.trim() ? guestName.trim() : null,
-      caption: caption?.trim() ? caption.trim() : null,
-      image_url: imageUrl,
-      storage_path: path,
-    })
-    .select()
-    .maybeSingle();
+  // IMPORTANT: no usamos .select() aquí. Los invitados pueden INSERTAR pero
+  // NO LEER (solo el admin puede ver el álbum). Pedir la fila de vuelta haría
+  // fallar la subida por las reglas de seguridad de Supabase.
+  const { error } = await supabase.from("photos").insert({
+    album_id: albumId ?? null,
+    guest_name: guestName?.trim() ? guestName.trim() : null,
+    caption: caption?.trim() ? caption.trim() : null,
+    image_url: imageUrl,
+    storage_path: path,
+  });
 
   if (error) throw error;
-  return data as Photo;
 }
 
 export async function fetchPhotos(): Promise<Photo[]> {
